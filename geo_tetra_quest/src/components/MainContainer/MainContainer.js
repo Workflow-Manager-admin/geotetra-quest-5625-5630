@@ -21,10 +21,60 @@ const MainContainer = () => {
     gameOver,
     paused,
     gameStarted,
+    lastAction,
+    lineClear,
+    levelUp,
+    gameStart,
+    gameOverTrigger,
     startGame,
     togglePause,
     resetGame
   } = useGameState();
+  
+  // Use our sound manager
+  const soundManager = useSoundManager();
+  
+  // Handle sound effects based on game events
+  useEffect(() => {
+    // Play sounds based on actions
+    if (lastAction === 'move') {
+      soundManager.playMoveSound();
+    } else if (lastAction === 'rotate') {
+      soundManager.playRotateSound();
+    } else if (lastAction === 'drop') {
+      soundManager.playDropSound();
+    } else if (lastAction === 'hardDrop') {
+      soundManager.playHardDropSound();
+    }
+  }, [lastAction, soundManager]);
+  
+  // Handle line clear sound
+  useEffect(() => {
+    if (lineClear) {
+      soundManager.playLineClearSound();
+    }
+  }, [lineClear, soundManager]);
+  
+  // Handle level up sound
+  useEffect(() => {
+    if (levelUp) {
+      soundManager.playLevelUpSound();
+    }
+  }, [levelUp, soundManager]);
+  
+  // Handle game start sound
+  useEffect(() => {
+    if (gameStart) {
+      soundManager.playGameStartSound();
+    }
+  }, [gameStart, soundManager]);
+  
+  // Handle game over sound
+  useEffect(() => {
+    if (gameOverTrigger) {
+      soundManager.playGameOverSound();
+    }
+  }, [gameOverTrigger, soundManager]);
 
   return (
     <div className="geotetra-container">
