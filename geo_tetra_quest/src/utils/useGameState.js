@@ -21,23 +21,27 @@ export const useGameState = () => {
   
   // Add flag reset effect for sound triggers
   useEffect(() => {
+    let timer = null;
     // Reset lastAction after it's been consumed
     if (gameState.lastAction) {
-      const timer = setTimeout(() => {
+      timer = setTimeout(() => {
         setGameState(prev => ({
           ...prev,
           lastAction: null
         }));
       }, 100); // Short delay to ensure the sound has time to play
-      
-      return () => clearTimeout(timer);
     }
+    
+    return () => {
+      if (timer) clearTimeout(timer);
+    };
   }, [gameState.lastAction]);
   
   // Reset one-time sound trigger flags
   useEffect(() => {
+    let timer = null;
     if (gameState.lineClear || gameState.levelUp || gameState.gameStart || gameState.gameOverTrigger) {
-      const timer = setTimeout(() => {
+      timer = setTimeout(() => {
         setGameState(prev => ({
           ...prev,
           lineClear: false,
@@ -46,9 +50,11 @@ export const useGameState = () => {
           gameOverTrigger: false
         }));
       }, 500); // Give enough time for sounds to play
-      
-      return () => clearTimeout(timer);
     }
+    
+    return () => {
+      if (timer) clearTimeout(timer);
+    };
   }, [gameState.lineClear, gameState.levelUp, gameState.gameStart, gameState.gameOverTrigger]);
 
   // Extract game state properties for easier access
