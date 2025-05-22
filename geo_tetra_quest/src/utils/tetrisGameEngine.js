@@ -87,16 +87,23 @@ export const checkCollision = (player, board, { x: moveX, y: moveY }) => {
     for (let x = 0; x < player.tetromino.shape[y].length; x++) {
       // Check if we're on an actual tetromino cell
       if (player.tetromino.shape[y][x] !== 0) {
-        // Check that move is within game boundaries and not colliding with filled cells
+        // Calculate the position on the board
+        const newY = y + player.pos.y + moveY;
+        const newX = x + player.pos.x + moveX;
+        
+        // Check boundaries first
         if (
-          // Check vertical boundaries
-          !board[y + player.pos.y + moveY] ||
-          // Check horizontal boundaries
-          !board[y + player.pos.y + moveY][x + player.pos.x + moveX] ||
-          // Check if cell is already filled on board
-          board[y + player.pos.y + moveY][x + player.pos.x + moveX] !== 0
+          newY < 0 || 
+          newY >= board.length || 
+          newX < 0 || 
+          newX >= board[0].length
         ) {
-          return true;
+          return true; // Out of bounds - collision
+        }
+        
+        // Check if the cell is already filled on the board
+        if (board[newY][newX] !== 0) {
+          return true; // Cell already occupied - collision
         }
       }
     }
