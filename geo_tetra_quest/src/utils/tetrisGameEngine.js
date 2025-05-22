@@ -168,12 +168,18 @@ export const createGameState = () => {
   const board = createBoard();
   
   // Get a random tetromino for the player
+  // Try to pick a piece that fits well at the top (I, O, or S pieces work well)
   const firstPiece = randomTetromino();
+  
+  // Initial position - adjusting x position based on piece width for better centering
+  const pieceWidth = firstPiece.shape[0].length;
+  const centerPos = Math.floor((10 - pieceWidth) / 2);
   
   return {
     board: board,
     player: {
-      pos: { x: 3, y: 0 }, // Start position - centered at top
+      // Position piece in center horizontally and at top vertically
+      pos: { x: centerPos, y: 0 }, 
       tetromino: firstPiece,
       collided: false,
     },
