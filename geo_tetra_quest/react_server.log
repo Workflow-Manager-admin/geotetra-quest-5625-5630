@@ -299,3 +299,18 @@ webpack compiled successfully
 Compiling...
 Compiled successfully!
 webpack compiled successfully
+Compiling...
+Failed to compile.
+
+[eslint] 
+src/utils/useGameState.js
+  Line 241:24:  'createBoard' is not defined  no-undef
+
+Search for the keywords to learn more about each error.
+ERROR in [eslint] 
+src/utils/useGameState.js
+  Line 241:24:  'createBoard' is not defined  no-undef
+
+Search for the keywords to learn more about each error.
+
+webpack compiled with 1 error

@@ -237,26 +237,40 @@ export const useGameState = () => {
 
   // Start new game
   const startGame = useCallback(() => {
-    // Reset game state
-    const initialState = createGameState();
+    // Create a completely clean board
+    const cleanBoard = createBoard();
     
-    // Set initial position for the first tetromino - start slightly higher to avoid immediate collision
-    initialState.player.pos = { x: 3, y: 0 };
-    initialState.player.collided = false;
+    // Get a random tetromino for the first piece
+    const firstPiece = randomTetromino();
     
-    // Always ensure the next piece is defined
-    if (!initialState.nextPiece) {
-      initialState.nextPiece = randomTetromino();
+    // Calculate proper initial position based on piece width for proper centering
+    const pieceWidth = firstPiece.shape[0].length;
+    const centerPos = Math.floor((10 - pieceWidth) / 2);
+    
+    // Create initial state with proper positioning
+    const initialState = {
+      board: cleanBoard,
+      player: {
+        pos: { x: centerPos, y: 0 },
+        tetromino: firstPiece,
+        collided: false,
+      },
+      nextPiece: randomTetromino(),
+      score: 0,
+      rows: 0,
+      level: 0,
+      gameOver: false,
+      paused: false
+    };
+    
+    // Ensure we're not already in a collision state
+    if (checkCollision(initialState.player, initialState.board, { x: 0, y: 0 })) {
+      // If initial position collides, try to move up a bit
+      initialState.player.pos.y = -1;
     }
     
-    // Reset game properties
-    initialState.gameOver = false;
-    initialState.paused = false;
-    initialState.score = 0;
-    initialState.rows = 0;
-    initialState.level = 0;
-    
     setGameState(initialState);
+    // Set up the drop interval
     setDropTime(calculateDropTime(0));
     setGameStarted(true);
   }, []);
