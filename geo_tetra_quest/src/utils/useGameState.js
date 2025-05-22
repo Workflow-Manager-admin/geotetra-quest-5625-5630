@@ -137,11 +137,10 @@ export const useGameState = () => {
     if (!checkCollision(gameState.player, gameState.board, { x: 0, y: 1 })) {
       updatePlayerPosition(0, 1, false);
     } else {
-      // If we're still at the very top of the board with a collision,
-      // only trigger game over if the piece has settled (collided)
+      // Check for top of board collision - only if we're past the initial drop
       if (gameState.player.pos.y < 1) {
-        // Instead of immediately marking game over, we check if the player has attempted to move the piece
-        // If the piece is still at its initial position, we don't mark game over yet
+        // Give the player a chance to move the piece before declaring game over
+        // We only mark game over if the piece has already collided
         if (gameState.player.collided) {
           setGameState(prev => ({
             ...prev,
@@ -171,14 +170,43 @@ export const useGameState = () => {
         const newLevel = calculateLevel(newRows);
         
         // Create new tetromino from next piece
+        const nextPiece = prev.nextPiece;
+        const pieceWidth = nextPiece.shape[0].length;
+        const centerPos = Math.floor((10 - pieceWidth) / 2);
+        
         const newPlayer = {
-          pos: { x: 3, y: 0 },
-          tetromino: prev.nextPiece,
+          pos: { x: centerPos, y: 0 },
+          tetromino: nextPiece,
           collided: false,
         };
         
         // Check if the new piece immediately collides - if so, it's game over
-        const gameIsOver = checkCollision(newPlayer, clearedBoard, { x: 0, y: 0 });
+        // But only if it collides with existing pieces, not just the board boundary
+        const gameIsOver = (() => {
+          // First check if part of the piece would be outside the top boundary
+          let collisionWithFilledCell = false;
+          
+          for (let y = 0; y < newPlayer.tetromino.shape.length; y++) {
+            for (let x = 0; x < newPlayer.tetromino.shape[y].length; x++) {
+              // If this is part of the piece
+              if (newPlayer.tetromino.shape[y][x] !== 0) {
+                const boardY = y + newPlayer.pos.y;
+                const boardX = x + newPlayer.pos.x;
+                
+                // If this would be inside the board
+                if (boardY >= 0 && boardY < clearedBoard.length && 
+                    boardX >= 0 && boardX < clearedBoard[0].length) {
+                  // If there's already a piece there, it's game over
+                  if (clearedBoard[boardY][boardX] !== 0) {
+                    collisionWithFilledCell = true;
+                  }
+                }
+              }
+            }
+          }
+          
+          return collisionWithFilledCell;
+        })();
         
         return {
           ...prev,
@@ -188,7 +216,7 @@ export const useGameState = () => {
           score: newScore,
           rows: newRows,
           level: newLevel,
-          gameOver: gameIsOver // Set game over if new piece can't be placed
+          gameOver: gameIsOver
         };
       });
     }
