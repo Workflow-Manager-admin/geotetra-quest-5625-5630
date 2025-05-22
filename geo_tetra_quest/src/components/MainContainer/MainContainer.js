@@ -57,7 +57,7 @@ const MainContainer = () => {
   
   // Handle line clear sound
   useEffect(() => {
-    if (lineClear && soundManager.soundsLoaded) {
+    if (lineClear) {
       soundManager.playLineClearSound();
       setLastPlayedSound('lineClear');
     }
@@ -65,7 +65,7 @@ const MainContainer = () => {
   
   // Handle level up sound
   useEffect(() => {
-    if (levelUp && soundManager.soundsLoaded) {
+    if (levelUp) {
       soundManager.playLevelUpSound();
       setLastPlayedSound('levelUp');
     }
@@ -73,7 +73,7 @@ const MainContainer = () => {
   
   // Handle game start sound
   useEffect(() => {
-    if (gameStart && soundManager.soundsLoaded) {
+    if (gameStart) {
       soundManager.playGameStartSound();
       setLastPlayedSound('gameStart');
     }
@@ -81,7 +81,7 @@ const MainContainer = () => {
   
   // Handle game over sound
   useEffect(() => {
-    if (gameOverTrigger && soundManager.soundsLoaded) {
+    if (gameOverTrigger) {
       soundManager.playGameOverSound();
       setLastPlayedSound('gameOver');
     }
