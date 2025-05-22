@@ -84,10 +84,22 @@ const MainContainer = () => {
   
   // Handle game over sound
   useEffect(() => {
-    if (gameOverTrigger) {
+    if (gameOverTrigger && soundManager.soundsLoaded) {
       soundManager.playGameOverSound();
+      setLastPlayedSound('gameOver');
     }
   }, [gameOverTrigger, soundManager]);
+  
+  // Add effect for clearing the last played sound info
+  useEffect(() => {
+    if (lastPlayedSound) {
+      const timer = setTimeout(() => {
+        setLastPlayedSound(null);
+      }, 800); // Clear after sound is likely finished
+      
+      return () => clearTimeout(timer);
+    }
+  }, [lastPlayedSound]);
 
   return (
     <div className="geotetra-container">
