@@ -249,10 +249,19 @@ export const useGameState = () => {
         break;
       case ' ':
         // Hard drop - quickly drop to the bottom
-        while (!checkCollision(gameState.player, gameState.board, { x: 0, y: 1 })) {
-          updatePlayerPosition(0, 1, false);
+        let dropDistance = 0;
+        // Find how far down we can drop
+        while (!checkCollision(gameState.player, gameState.board, { x: 0, y: dropDistance + 1 })) {
+          dropDistance++;
         }
-        updatePlayerPosition(0, 0, true); // Mark as collided after hard drop
+        
+        if (dropDistance > 0) {
+          // Move the piece down that many spaces
+          updatePlayerPosition(0, dropDistance, false);
+        }
+        
+        // Mark as collided to trigger the next piece
+        updatePlayerPosition(0, 0, true);
         break;
       case 'p':
       case 'P':
