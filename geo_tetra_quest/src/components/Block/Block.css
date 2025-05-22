@@ -21,44 +21,51 @@
 /* Tetromino blocks with colors and 3D effects */
 .block.color-1 .block-inner {
   background-color: #FF5252; /* I piece - Red */
-  box-shadow: inset -2px -2px 0 rgba(0, 0, 0, 0.3),
-              inset 2px 2px 0 rgba(255, 255, 255, 0.3);
+  box-shadow: inset -3px -3px 0 rgba(0, 0, 0, 0.4),
+              inset 3px 3px 0 rgba(255, 255, 255, 0.4),
+              0 0 5px rgba(255, 82, 82, 0.7);
 }
 
 .block.color-2 .block-inner {
   background-color: #40C4FF; /* J piece - Blue */
-  box-shadow: inset -2px -2px 0 rgba(0, 0, 0, 0.3),
-              inset 2px 2px 0 rgba(255, 255, 255, 0.3);
+  box-shadow: inset -3px -3px 0 rgba(0, 0, 0, 0.4),
+              inset 3px 3px 0 rgba(255, 255, 255, 0.4),
+              0 0 5px rgba(64, 196, 255, 0.7);
 }
 
 .block.color-3 .block-inner {
   background-color: #FFAB40; /* L piece - Orange */
-  box-shadow: inset -2px -2px 0 rgba(0, 0, 0, 0.3),
-              inset 2px 2px 0 rgba(255, 255, 255, 0.3);
+  box-shadow: inset -3px -3px 0 rgba(0, 0, 0, 0.4),
+              inset 3px 3px 0 rgba(255, 255, 255, 0.4),
+              0 0 5px rgba(255, 171, 64, 0.7);
 }
 
 .block.color-4 .block-inner {
   background-color: #7C4DFF; /* O piece - Purple */
-  box-shadow: inset -2px -2px 0 rgba(0, 0, 0, 0.3),
-              inset 2px 2px 0 rgba(255, 255, 255, 0.3);
+  box-shadow: inset -3px -3px 0 rgba(0, 0, 0, 0.4),
+              inset 3px 3px 0 rgba(255, 255, 255, 0.4),
+              0 0 5px rgba(124, 77, 255, 0.7);
 }
 
 .block.color-5 .block-inner {
   background-color: #69F0AE; /* S piece - Green */
-  box-shadow: inset -2px -2px 0 rgba(0, 0, 0, 0.3),
-              inset 2px 2px 0 rgba(255, 255, 255, 0.3);
+  box-shadow: inset -3px -3px 0 rgba(0, 0, 0, 0.4),
+              inset 3px 3px 0 rgba(255, 255, 255, 0.4),
+              0 0 5px rgba(105, 240, 174, 0.7);
 }
 
 .block.color-6 .block-inner {
   background-color: #EEFF41; /* T piece - Yellow */
-  box-shadow: inset -2px -2px 0 rgba(0, 0, 0, 0.3),
-              inset 2px 2px 0 rgba(255, 255, 255, 0.3);
+  box-shadow: inset -3px -3px 0 rgba(0, 0, 0, 0.4),
+              inset 3px 3px 0 rgba(255, 255, 255, 0.4),
+              0 0 5px rgba(238, 255, 65, 0.7);
 }
 
 .block.color-7 .block-inner {
   background-color: #FF80AB; /* Z piece - Pink */
-  box-shadow: inset -2px -2px 0 rgba(0, 0, 0, 0.3),
-              inset 2px 2px 0 rgba(255, 255, 255, 0.3);
+  box-shadow: inset -3px -3px 0 rgba(0, 0, 0, 0.4),
+              inset 3px 3px 0 rgba(255, 255, 255, 0.4),
+              0 0 5px rgba(255, 128, 171, 0.7);
 }
 
 /* Block glow effect on active piece */
