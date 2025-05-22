@@ -115,13 +115,17 @@ export const useGameState = () => {
       ...prev,
       player: clonedPlayer
     }));
+    
+    return true; // Rotation successful - for sound effect trigger
   }, [gameState.board, gameState.player]);
 
   // Move the player left or right
   const movePlayer = useCallback((dir) => {
     if (!checkCollision(gameState.player, gameState.board, { x: dir, y: 0 })) {
       updatePlayerPosition(dir, 0, false);
+      return true; // Movement successful - for sound effect trigger
     }
+    return false; // Movement failed - no sound
   }, [gameState.player, gameState.board, updatePlayerPosition]);
 
   // Drop the tetromino one row down
