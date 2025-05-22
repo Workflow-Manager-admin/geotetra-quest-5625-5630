@@ -222,7 +222,9 @@ export const useGameState = () => {
           score: newScore,
           rows: newRows,
           level: newLevel,
-          gameOver: gameIsOver
+          gameOver: gameIsOver,
+          lineClear: linesCleared > 0,
+          levelUp: newLevel > prev.level
         };
       });
     }
