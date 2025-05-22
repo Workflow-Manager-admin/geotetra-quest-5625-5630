@@ -1,0 +1,270 @@
+/* GeoTetra Quest Main Container Styles */
+.geotetra-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 2rem;
+  color: var(--text-color);
+}
+
+.geotetra-header {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.geotetra-title {
+  font-size: 2.5rem;
+  background: linear-gradient(135deg, var(--kavia-orange), #ff5b7f);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  margin-bottom: 0.5rem;
+  letter-spacing: 1px;
+  text-shadow: 0 0 15px rgba(232, 122, 65, 0.5);
+}
+
+.geotetra-subtitle {
+  font-size: 1.1rem;
+  color: var(--text-secondary);
+  margin: 0;
+}
+
+.geotetra-game-area {
+  display: flex;
+  gap: 2rem;
+  align-items: flex-start;
+  width: 100%;
+  margin-bottom: 2rem;
+}
+
+.geotetra-left-panel {
+  flex: 0 0 200px;
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+/* Next Piece Preview */
+.geotetra-next-piece-container {
+  background-color: rgba(0, 0, 0, 0.3);
+  border-radius: 8px;
+  padding: 1rem;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  border: 1px solid var(--border-color);
+}
+
+.geotetra-next-piece-container h3 {
+  margin-top: 0;
+  text-align: center;
+  font-size: 1rem;
+  color: var(--kavia-orange);
+  margin-bottom: 1rem;
+}
+
+.geotetra-preview-grid {
+  width: 100%;
+  aspect-ratio: 1/1;
+  display: flex;
+  flex-direction: column;
+}
+
+.geotetra-preview-row {
+  display: flex;
+  flex: 1;
+}
+
+.geotetra-preview-cell {
+  flex: 1;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  background-color: rgba(0, 0, 0, 0.2);
+}
+
+/* Stats Panel */
+.geotetra-stats {
+  background-color: rgba(0, 0, 0, 0.3);
+  border-radius: 8px;
+  padding: 1rem;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  border: 1px solid var(--border-color);
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.geotetra-stat-item {
+  text-align: center;
+}
+
+.geotetra-stat-item h3 {
+  margin: 0;
+  font-size: 0.9rem;
+  color: var(--text-secondary);
+}
+
+.geotetra-stat-value {
+  font-size: 1.8rem;
+  font-weight: bold;
+  color: var(--kavia-orange);
+  text-shadow: 0 0 10px rgba(232, 122, 65, 0.5);
+}
+
+/* Controls Info */
+.geotetra-controls-info {
+  background-color: rgba(0, 0, 0, 0.3);
+  border-radius: 8px;
+  padding: 1rem;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  border: 1px solid var(--border-color);
+}
+
+.geotetra-controls-info h3 {
+  margin-top: 0;
+  text-align: center;
+  font-size: 1rem;
+  color: var(--kavia-orange);
+  margin-bottom: 1rem;
+}
+
+.geotetra-controls-info ul {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+}
+
+.geotetra-controls-info li {
+  display: flex;
+  align-items: center;
+  margin-bottom: 0.5rem;
+  font-size: 0.9rem;
+}
+
+.geotetra-controls-info li span {
+  background-color: rgba(255, 255, 255, 0.1);
+  border-radius: 4px;
+  padding: 2px 6px;
+  font-family: monospace;
+  margin-right: 0.5rem;
+  color: var(--kavia-orange);
+  min-width: 40px;
+  text-align: center;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+/* Game Board */
+.geotetra-board-container {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+}
+
+.geotetra-board {
+  background-color: rgba(0, 0, 0, 0.3);
+  border-radius: 8px;
+  box-shadow: 0 0 20px rgba(232, 122, 65, 0.2), 
+              0 4px 12px rgba(0, 0, 0, 0.2);
+  border: 1px solid var(--border-color);
+  display: flex;
+  flex-direction: column;
+  width: 300px;
+  aspect-ratio: 1/2;
+  overflow: hidden;
+}
+
+.geotetra-row {
+  display: flex;
+  flex: 1;
+}
+
+.geotetra-cell {
+  flex: 1;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  background-color: rgba(0, 0, 0, 0.2);
+  transition: background-color 0.2s ease;
+}
+
+/* Example colored cells for visual appeal */
+.geotetra-cell.color-1 { background-color: #FF5252; }
+.geotetra-cell.color-2 { background-color: #40C4FF; }
+.geotetra-cell.color-3 { background-color: #FFAB40; }
+.geotetra-cell.color-4 { background-color: #7C4DFF; }
+.geotetra-cell.color-5 { background-color: #69F0AE; }
+.geotetra-cell.color-6 { background-color: #EEFF41; }
+.geotetra-cell.color-7 { background-color: #FF80AB; }
+
+/* Footer with game controls */
+.geotetra-footer {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  margin-top: 1rem;
+  width: 100%;
+}
+
+.geotetra-btn {
+  background-color: rgba(0, 0, 0, 0.3);
+  color: var(--text-color);
+  border: 1px solid var(--border-color);
+  border-radius: 4px;
+  padding: 0.75rem 1.5rem;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.geotetra-btn:hover {
+  background-color: rgba(0, 0, 0, 0.5);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.geotetra-btn-primary {
+  background-color: var(--kavia-orange);
+  border: none;
+}
+
+.geotetra-btn-primary:hover {
+  background-color: #FF8B4D;
+}
+
+.geotetra-btn-danger {
+  border-color: #FF5252;
+  color: #FF5252;
+}
+
+.geotetra-btn-danger:hover {
+  background-color: rgba(255, 82, 82, 0.1);
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .geotetra-game-area {
+    flex-direction: column-reverse;
+    align-items: center;
+  }
+
+  .geotetra-left-panel {
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+    width: 100%;
+  }
+
+  .geotetra-board {
+    width: 240px;
+  }
+}
+
+@media (max-width: 480px) {
+  .geotetra-container {
+    padding: 1rem;
+  }
+
+  .geotetra-left-panel {
+    flex-direction: column;
+  }
+
+  .geotetra-board {
+    width: 200px;
+  }
+}
