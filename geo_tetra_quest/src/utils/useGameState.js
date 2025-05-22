@@ -141,7 +141,7 @@ export const useGameState = () => {
     } else {
       // Check for game over - if collision at top of board
       // Only trigger game over if there's a collision at the top row AND the piece has already been marked as collided
-      if (gameState.player.pos.y < 2 && gameState.player.collided) {
+      if (gameState.player.pos.y < 1 && gameState.player.collided) {
         setGameState(prev => ({
           ...prev,
           gameOver: true
