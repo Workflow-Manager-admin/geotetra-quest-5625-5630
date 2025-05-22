@@ -151,7 +151,8 @@ export const useGameState = () => {
         if (gameState.player.collided) {
           setGameState(prev => ({
             ...prev,
-            gameOver: true
+            gameOver: true,
+            gameOverTrigger: true // Flag for game over sound effect
           }));
           setDropTime(null);
           setGameStarted(false);
