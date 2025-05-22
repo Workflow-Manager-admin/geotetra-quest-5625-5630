@@ -445,6 +445,13 @@ export const useGameState = () => {
     paused,
     gameStarted,
     
+    // Sound trigger flags
+    lastAction: gameState.lastAction,
+    lineClear: gameState.lineClear,
+    levelUp: gameState.levelUp,
+    gameStart: gameState.gameStart,
+    gameOverTrigger: gameState.gameOverTrigger,
+    
     // Game actions
     startGame,
     togglePause,
