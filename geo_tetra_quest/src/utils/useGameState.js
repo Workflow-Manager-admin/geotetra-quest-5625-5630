@@ -253,12 +253,19 @@ export const useGameState = () => {
 
   // Update board when player tetromino collides
   const updateBoard = useCallback((prevBoard, player) => {
-    const newBoard = [...prevBoard];
+    const newBoard = [...prevBoard].map(row => [...row]);
     
     player.tetromino.shape.forEach((row, y) => {
       row.forEach((value, x) => {
         if (value !== 0) {
-          newBoard[y + player.pos.y][x + player.pos.x] = parseInt(player.tetromino.color);
+          if (
+            y + player.pos.y >= 0 && 
+            y + player.pos.y < prevBoard.length && 
+            x + player.pos.x >= 0 && 
+            x + player.pos.x < prevBoard[0].length
+          ) {
+            newBoard[y + player.pos.y][x + player.pos.x] = parseInt(player.tetromino.color);
+          }
         }
       });
     });
