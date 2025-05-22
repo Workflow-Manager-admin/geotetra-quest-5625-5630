@@ -275,7 +275,8 @@ export const useGameState = () => {
           level: newLevel,
           gameOver: gameIsOver,
           lineClear: linesCleared > 0,
-          levelUp: newLevel > prev.level
+          levelUp: newLevel > prev.level,
+          clearingLines: linesCleared > 0 ? clearingLineIndices : []
         };
       });
     }
