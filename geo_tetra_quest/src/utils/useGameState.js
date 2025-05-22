@@ -314,16 +314,32 @@ export const useGameState = () => {
   useEffect(() => {
     let dropInterval = null;
     
-    if (dropTime && !paused && !gameOver) {
+    // Clear any existing interval first to prevent duplicates
+    if (dropInterval) {
+      clearInterval(dropInterval);
+    }
+    
+    if (dropTime && !paused && !gameOver && gameStarted) {
+      // Immediately perform one drop to get the game moving
+      if (gameState.player && gameState.board) {
+        // Only drop if not already in collision state
+        if (!checkCollision(gameState.player, gameState.board, { x: 0, y: 1 })) {
+          drop();
+        }
+      }
+      
+      // Then set up the interval for subsequent drops
       dropInterval = setInterval(() => {
         drop();
       }, dropTime);
     }
     
     return () => {
-      clearInterval(dropInterval);
+      if (dropInterval) {
+        clearInterval(dropInterval);
+      }
     };
-  }, [drop, dropTime, paused, gameOver]);
+  }, [drop, dropTime, paused, gameOver, gameStarted, gameState.player, gameState.board]);
 
   // Effect for handling keyboard events
   useEffect(() => {
