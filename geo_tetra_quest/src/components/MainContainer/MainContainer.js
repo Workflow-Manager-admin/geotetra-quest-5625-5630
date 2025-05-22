@@ -26,6 +26,7 @@ const MainContainer = () => {
     levelUp,
     gameStart,
     gameOverTrigger,
+    clearingLines,
     startGame,
     togglePause,
     resetGame
