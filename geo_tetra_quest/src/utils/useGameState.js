@@ -244,20 +244,30 @@ export const useGameState = () => {
     // Reset game state
     const initialState = createGameState();
     
-    // Ensure the initial piece doesn't immediately collide
-    const hasCollision = checkCollision(
-      initialState.player, 
-      initialState.board, 
-      { x: 0, y: 0 }
-    );
+    // Make sure we start with a valid tetromino that doesn't immediately collide
+    let attempts = 0;
+    let safeStart = false;
     
-    // If there's an immediate collision, try a different piece
-    if (hasCollision) {
-      initialState.player.tetromino = randomTetromino();
+    while (!safeStart && attempts < 10) {
+      const hasCollision = checkCollision(
+        initialState.player, 
+        initialState.board, 
+        { x: 0, y: 0 }
+      );
+      
+      if (!hasCollision) {
+        safeStart = true;
+      } else {
+        initialState.player.tetromino = randomTetromino();
+        attempts++;
+      }
     }
     
+    // Set collided to false to ensure piece can move initially
+    initialState.player.collided = false;
+    
     setGameState(initialState);
-    setDropTime(calculateDropTime(0)); // Use proper drop time calculation
+    setDropTime(calculateDropTime(0));
     setGameStarted(true);
   }, []);
 
