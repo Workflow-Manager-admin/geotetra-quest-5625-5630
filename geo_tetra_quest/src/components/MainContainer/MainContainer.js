@@ -84,6 +84,33 @@ const MainContainer = () => {
         <div className="geotetra-board-container">
           {/* Use the GameBoard component */}
           <GameBoard board={board} />
+          
+          {/* Game over overlay */}
+          {gameOver && (
+            <div className="geotetra-overlay">
+              <h2>Game Over</h2>
+              <p>Final Score: {score}</p>
+              <button 
+                className="geotetra-btn geotetra-btn-primary"
+                onClick={startGame}
+              >
+                Play Again
+              </button>
+            </div>
+          )}
+          
+          {/* Pause overlay */}
+          {paused && !gameOver && (
+            <div className="geotetra-overlay">
+              <h2>Game Paused</h2>
+              <button 
+                className="geotetra-btn geotetra-btn-primary"
+                onClick={togglePause}
+              >
+                Resume Game
+              </button>
+            </div>
+          )}
         </div>
       </div>
       
