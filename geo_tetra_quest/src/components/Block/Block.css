@@ -4,6 +4,7 @@
   box-sizing: border-box;
   padding: 2px;
   position: relative;
+  transition: transform 0.15s ease-out;
 }
 
 .block-inner {
@@ -11,6 +12,9 @@
   height: 100%;
   border-radius: 6px;
   background-color: transparent;
+  transition: all 0.2s ease;
+  position: relative;
+  overflow: hidden;
 }
 
 /* Empty block */
@@ -18,68 +22,162 @@
   background-color: transparent;
 }
 
-/* Tetromino blocks with colors and 3D effects */
+/* Add shine effect to block inner */
+.block-inner::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: rgba(255, 255, 255, 0.15);
+  transform: rotate(45deg);
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.block.active .block-inner::before {
+  animation: shine 2s infinite;
+}
+
+/* Tetromino blocks with modern gradients and 3D effects */
 .block.color-1 .block-inner {
-  background-color: #FF5252; /* I piece - Red */
-  box-shadow: inset -4px -4px 0 rgba(0, 0, 0, 0.5),
-              inset 4px 4px 0 rgba(255, 255, 255, 0.5),
-              0 0 8px rgba(255, 82, 82, 0.8);
+  background: linear-gradient(135deg, #FF5252 0%, #FF1744 100%); /* I piece - Red */
+  box-shadow: inset -2px -2px 0 rgba(0, 0, 0, 0.5),
+              inset 2px 2px 0 rgba(255, 255, 255, 0.5),
+              0 0 12px rgba(255, 82, 82, 0.8);
 }
 
 .block.color-2 .block-inner {
-  background-color: #40C4FF; /* J piece - Blue */
-  box-shadow: inset -4px -4px 0 rgba(0, 0, 0, 0.5),
-              inset 4px 4px 0 rgba(255, 255, 255, 0.5),
-              0 0 8px rgba(64, 196, 255, 0.8);
+  background: linear-gradient(135deg, #40C4FF 0%, #00B0FF 100%); /* J piece - Blue */
+  box-shadow: inset -2px -2px 0 rgba(0, 0, 0, 0.5),
+              inset 2px 2px 0 rgba(255, 255, 255, 0.5),
+              0 0 12px rgba(64, 196, 255, 0.8);
 }
 
 .block.color-3 .block-inner {
-  background-color: #FFAB40; /* L piece - Orange */
-  box-shadow: inset -4px -4px 0 rgba(0, 0, 0, 0.5),
-              inset 4px 4px 0 rgba(255, 255, 255, 0.5),
-              0 0 8px rgba(255, 171, 64, 0.8);
+  background: linear-gradient(135deg, #FFAB40 0%, #FF9100 100%); /* L piece - Orange */
+  box-shadow: inset -2px -2px 0 rgba(0, 0, 0, 0.5),
+              inset 2px 2px 0 rgba(255, 255, 255, 0.5),
+              0 0 12px rgba(255, 171, 64, 0.8);
 }
 
 .block.color-4 .block-inner {
-  background-color: #7C4DFF; /* O piece - Purple */
-  box-shadow: inset -4px -4px 0 rgba(0, 0, 0, 0.5),
-              inset 4px 4px 0 rgba(255, 255, 255, 0.5),
-              0 0 8px rgba(124, 77, 255, 0.8);
+  background: linear-gradient(135deg, #7C4DFF 0%, #651FFF 100%); /* O piece - Purple */
+  box-shadow: inset -2px -2px 0 rgba(0, 0, 0, 0.5),
+              inset 2px 2px 0 rgba(255, 255, 255, 0.5),
+              0 0 12px rgba(124, 77, 255, 0.8);
 }
 
 .block.color-5 .block-inner {
-  background-color: #69F0AE; /* S piece - Green */
-  box-shadow: inset -4px -4px 0 rgba(0, 0, 0, 0.5),
-              inset 4px 4px 0 rgba(255, 255, 255, 0.5),
-              0 0 8px rgba(105, 240, 174, 0.8);
+  background: linear-gradient(135deg, #69F0AE 0%, #00E676 100%); /* S piece - Green */
+  box-shadow: inset -2px -2px 0 rgba(0, 0, 0, 0.5),
+              inset 2px 2px 0 rgba(255, 255, 255, 0.5),
+              0 0 12px rgba(105, 240, 174, 0.8);
 }
 
 .block.color-6 .block-inner {
-  background-color: #EEFF41; /* T piece - Yellow */
-  box-shadow: inset -4px -4px 0 rgba(0, 0, 0, 0.5),
-              inset 4px 4px 0 rgba(255, 255, 255, 0.5),
-              0 0 8px rgba(238, 255, 65, 0.8);
+  background: linear-gradient(135deg, #EEFF41 0%, #C6FF00 100%); /* T piece - Yellow */
+  box-shadow: inset -2px -2px 0 rgba(0, 0, 0, 0.5),
+              inset 2px 2px 0 rgba(255, 255, 255, 0.5),
+              0 0 12px rgba(238, 255, 65, 0.8);
 }
 
 .block.color-7 .block-inner {
-  background-color: #FF80AB; /* Z piece - Pink */
-  box-shadow: inset -4px -4px 0 rgba(0, 0, 0, 0.5),
-              inset 4px 4px 0 rgba(255, 255, 255, 0.5),
-              0 0 8px rgba(255, 128, 171, 0.8);
+  background: linear-gradient(135deg, #FF80AB 0%, #FF4081 100%); /* Z piece - Pink */
+  box-shadow: inset -2px -2px 0 rgba(0, 0, 0, 0.5),
+              inset 2px 2px 0 rgba(255, 255, 255, 0.5),
+              0 0 12px rgba(255, 128, 171, 0.8);
 }
 
-/* Block glow effect on active piece */
+/* Block glow and pulse effects for active piece */
 .block.active .block-inner {
   animation: block-glow 1.5s infinite alternate;
+  box-shadow: inset -2px -2px 0 rgba(0, 0, 0, 0.5),
+              inset 2px 2px 0 rgba(255, 255, 255, 0.5),
+              0 0 18px var(--glow-color, rgba(255, 255, 255, 0.9));
 }
 
+/* Falling animation */
+.block.falling {
+  animation: block-fall 0.5s ease-in;
+}
+
+/* Locking animation */
+.block.locking .block-inner {
+  animation: block-lock 0.3s ease-out;
+}
+
+/* Keyframes for different animations */
 @keyframes block-glow {
-  from {
+  0% {
     filter: brightness(1.2);
-    transform: scale(0.95);
+    transform: scale(0.96);
+    box-shadow: inset -2px -2px 0 rgba(0, 0, 0, 0.5),
+                inset 2px 2px 0 rgba(255, 255, 255, 0.5),
+                0 0 12px var(--glow-color, rgba(255, 255, 255, 0.8));
   }
-  to {
+  50% {
+    filter: brightness(1.5);
+  }
+  100% {
     filter: brightness(1.7);
-    transform: scale(1.02);
+    transform: scale(1.04);
+    box-shadow: inset -2px -2px 0 rgba(0, 0, 0, 0.4),
+                inset 2px 2px 0 rgba(255, 255, 255, 0.6),
+                0 0 20px var(--glow-color, rgba(255, 255, 255, 1));
   }
 }
+
+@keyframes block-fall {
+  0% {
+    transform: translateY(-20px);
+    opacity: 0.7;
+  }
+  100% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+@keyframes block-lock {
+  0% {
+    transform: scale(1.1);
+    filter: brightness(1.5);
+  }
+  50% {
+    transform: scale(0.95);
+  }
+  100% {
+    transform: scale(1);
+    filter: brightness(1);
+  }
+}
+
+@keyframes shine {
+  0% {
+    opacity: 0;
+    transform: translateX(-100%) rotate(45deg);
+  }
+  10% {
+    opacity: 0.5;
+  }
+  20% {
+    opacity: 0;
+    transform: translateX(100%) rotate(45deg);
+  }
+  100% {
+    opacity: 0;
+    transform: translateX(100%) rotate(45deg);
+  }
+}
+
+/* Custom glow colors for each block type */
+.block.color-1.active .block-inner { --glow-color: rgba(255, 82, 82, 0.9); }
+.block.color-2.active .block-inner { --glow-color: rgba(64, 196, 255, 0.9); }
+.block.color-3.active .block-inner { --glow-color: rgba(255, 171, 64, 0.9); }
+.block.color-4.active .block-inner { --glow-color: rgba(124, 77, 255, 0.9); }
+.block.color-5.active .block-inner { --glow-color: rgba(105, 240, 174, 0.9); }
+.block.color-6.active .block-inner { --glow-color: rgba(238, 255, 65, 0.9); }
+.block.color-7.active .block-inner { --glow-color: rgba(255, 128, 171, 0.9); }
