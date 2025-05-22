@@ -34,24 +34,35 @@ const MainContainer = () => {
   // Use our sound manager
   const soundManager = useSoundManager();
   
+  // Track the last played sound for feedback purposes
+  const [lastPlayedSound, setLastPlayedSound] = useState(null);
+  
   // Handle sound effects based on game events
   useEffect(() => {
-    // Play sounds based on actions
+    // Only attempt to play sounds if they're loaded
+    if (!soundManager.soundsLoaded) return;
+    
+    // Play sounds based on actions and update last played sound
     if (lastAction === 'move') {
       soundManager.playMoveSound();
+      setLastPlayedSound('move');
     } else if (lastAction === 'rotate') {
       soundManager.playRotateSound();
+      setLastPlayedSound('rotate');
     } else if (lastAction === 'drop') {
       soundManager.playDropSound();
+      setLastPlayedSound('drop');
     } else if (lastAction === 'hardDrop') {
       soundManager.playHardDropSound();
+      setLastPlayedSound('hardDrop');
     }
   }, [lastAction, soundManager]);
   
   // Handle line clear sound
   useEffect(() => {
-    if (lineClear) {
+    if (lineClear && soundManager.soundsLoaded) {
       soundManager.playLineClearSound();
+      setLastPlayedSound('lineClear');
     }
   }, [lineClear, soundManager]);
   
