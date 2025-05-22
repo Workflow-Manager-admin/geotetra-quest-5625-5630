@@ -172,6 +172,9 @@ export const useGameState = () => {
         const newScore = prev.score + calculateScore(linesCleared, prev.level);
         const newLevel = calculateLevel(newRows);
         
+        // Store if level increased for sound effects
+        const levelUp = newLevel > prev.level;
+        
         // Create new tetromino from next piece
         const nextPiece = prev.nextPiece;
         const pieceWidth = nextPiece.shape[0].length;
