@@ -45,6 +45,7 @@ const GameBoard = ({
               <Block 
                 type={cell} 
                 isFalling={cell > 0 && !animatingRows.includes(rowIndex)}
+                isClearing={cell > 0 && animatingRows.includes(rowIndex)}
               />
             </div>
           ))}

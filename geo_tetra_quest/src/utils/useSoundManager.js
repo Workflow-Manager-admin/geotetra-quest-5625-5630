@@ -67,7 +67,7 @@ const useSoundManager = () => {
         }
       });
     };
-  }, [preloadSounds]);
+  }, []);
 
   // Helper function to play a sound with error handling
   const playSound = useCallback((sound) => {
