@@ -18,7 +18,7 @@ export const useGameState = () => {
   const [gameStarted, setGameStarted] = useState(false);
 
   // Extract game state properties for easier access
-  const { board, player, nextPiece, score, rows, level, gameOver, paused } = gameState;
+  const { board, player, nextPiece: nextTetromino, score, rows, level, gameOver, paused } = gameState;
 
   // Update player position
   const updatePlayerPosition = useCallback((x, y, collided) => {
@@ -302,7 +302,7 @@ export const useGameState = () => {
     // Game state
     board: stage(),
     player,
-    nextPiece: nextPiece.shape,
+    nextPiece: nextTetromino.shape,
     score,
     rows,
     level,
