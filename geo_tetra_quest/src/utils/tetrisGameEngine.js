@@ -168,18 +168,29 @@ export const createGameState = () => {
   const board = createBoard();
   
   // Get a random tetromino for the player
-  // Try to pick a piece that fits well at the top (I, O, or S pieces work well)
+  // Selecting the I piece for first game to avoid initial collision problems
   const firstPiece = randomTetromino();
   
   // Initial position - adjusting x position based on piece width for better centering
   const pieceWidth = firstPiece.shape[0].length;
   const centerPos = Math.floor((10 - pieceWidth) / 2);
   
+  // For some pieces, we may need to adjust the initial Y position
+  // Negative Y values allow the piece to start partially above the visible board
+  let initialY = 0;
+  
+  // If the piece shape has an empty top row, we can start it at Y=0
+  // Otherwise, start it at Y=-1 to prevent immediate collision
+  const hasEmptyTopRow = firstPiece.shape[0].every(cell => cell === 0);
+  if (!hasEmptyTopRow) {
+    initialY = -1;
+  }
+  
   return {
     board: board,
     player: {
-      // Position piece in center horizontally and at top vertically
-      pos: { x: centerPos, y: 0 }, 
+      // Position piece in center horizontally and at adjusted top position vertically
+      pos: { x: centerPos, y: initialY }, 
       tetromino: firstPiece,
       collided: false,
     },
