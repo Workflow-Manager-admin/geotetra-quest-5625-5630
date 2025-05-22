@@ -17,23 +17,96 @@ const useSoundManager = () => {
   const gameStartSound = useRef(null);
   const levelUpSound = useRef(null);
   
-  // State to track mute status
+  // State to track mute status and sound loading
   const [muted, setMuted] = useState(false);
+  const [soundsLoaded, setSoundsLoaded] = useState(false);
+  const [loadingErrors, setLoadingErrors] = useState([]);
+  
+  // Define sound file paths
+  const soundFiles = useRef({
+    move: 'move.mp3',
+    rotate: 'rotate.mp3',
+    drop: 'drop.mp3',
+    hardDrop: 'hard-drop.mp3',
+    lineClear: 'line-clear.mp3',
+    gameOver: 'game-over.mp3',
+    gameStart: 'game-start.mp3',
+    levelUp: 'level-up.mp3'
+  });
+  
+  // Function to preload all sounds
+  const preloadSounds = useCallback(() => {
+    const publicUrl = process.env.PUBLIC_URL || '';
+    const errors = [];
+    const soundsToLoad = Object.keys(soundFiles.current).length;
+    let loadedCount = 0;
+    
+    // Create and configure all audio elements
+    moveSound.current = new Audio(`${publicUrl}/sounds/${soundFiles.current.move}`);
+    rotateSound.current = new Audio(`${publicUrl}/sounds/${soundFiles.current.rotate}`);
+    dropSound.current = new Audio(`${publicUrl}/sounds/${soundFiles.current.drop}`);
+    hardDropSound.current = new Audio(`${publicUrl}/sounds/${soundFiles.current.hardDrop}`);
+    lineClearSound.current = new Audio(`${publicUrl}/sounds/${soundFiles.current.lineClear}`);
+    gameOverSound.current = new Audio(`${publicUrl}/sounds/${soundFiles.current.gameOver}`);
+    gameStartSound.current = new Audio(`${publicUrl}/sounds/${soundFiles.current.gameStart}`);
+    levelUpSound.current = new Audio(`${publicUrl}/sounds/${soundFiles.current.levelUp}`);
+    
+    const sounds = [
+      { ref: moveSound, name: 'move' },
+      { ref: rotateSound, name: 'rotate' },
+      { ref: dropSound, name: 'drop' },
+      { ref: hardDropSound, name: 'hardDrop' },
+      { ref: lineClearSound, name: 'lineClear' },
+      { ref: gameOverSound, name: 'gameOver' },
+      { ref: gameStartSound, name: 'gameStart' },
+      { ref: levelUpSound, name: 'levelUp' }
+    ];
+    
+    // Set volume and add event listeners for all sounds
+    sounds.forEach(sound => {
+      if (sound.ref.current) {
+        // Set volume
+        sound.ref.current.volume = 0.5;
+        
+        // Add load event listener
+        sound.ref.current.addEventListener('canplaythrough', () => {
+          loadedCount++;
+          if (loadedCount === soundsToLoad) {
+            setSoundsLoaded(true);
+          }
+        }, { once: true });
+        
+        // Add error event listener
+        sound.ref.current.addEventListener('error', (e) => {
+          errors.push(`Failed to load ${sound.name} sound: ${e.message || 'Unknown error'}`);
+          setLoadingErrors([...errors]);
+          
+          // Still count as "loaded" even if it errored
+          loadedCount++;
+          if (loadedCount === soundsToLoad) {
+            setSoundsLoaded(true);
+          }
+        }, { once: true });
+        
+        // Attempt to load the sound by setting preload attribute
+        sound.ref.current.preload = 'auto';
+        
+        // Also try forcing a load 
+        try {
+          sound.ref.current.load();
+        } catch (err) {
+          console.warn(`Error pre-loading sound ${sound.name}:`, err);
+        }
+      }
+    });
+  }, []);
 
   // Initialize sound elements on component mount
   useEffect(() => {
-    // Create audio elements with the process.env.PUBLIC_URL prefix for correct path resolution
-    const publicUrl = process.env.PUBLIC_URL || '';
-    moveSound.current = new Audio(`${publicUrl}/sounds/move.mp3`);
-    rotateSound.current = new Audio(`${publicUrl}/sounds/rotate.mp3`);
-    dropSound.current = new Audio(`${publicUrl}/sounds/drop.mp3`);
-    hardDropSound.current = new Audio(`${publicUrl}/sounds/hard-drop.mp3`);
-    lineClearSound.current = new Audio(`${publicUrl}/sounds/line-clear.mp3`);
-    gameOverSound.current = new Audio(`${publicUrl}/sounds/game-over.mp3`);
-    gameStartSound.current = new Audio(`${publicUrl}/sounds/game-start.mp3`);
-    levelUpSound.current = new Audio(`${publicUrl}/sounds/level-up.mp3`);
+    // Preload all sounds
+    preloadSounds();
     
-    // Set volume for all sounds
+    // Get all sound refs for cleanup
     const sounds = [
       moveSound.current,
       rotateSound.current,
@@ -45,12 +118,6 @@ const useSoundManager = () => {
       levelUpSound.current
     ];
     
-    sounds.forEach(sound => {
-      if (sound) {
-        sound.volume = 0.5; // Set to 50% volume
-      }
-    });
-    
     // Cleanup function to prevent memory leaks
     return () => {
       sounds.forEach(sound => {
@@ -60,7 +127,7 @@ const useSoundManager = () => {
         }
       });
     };
-  }, []);
+  }, [preloadSounds]);
 
   // Helper function to play a sound with error handling
   const playSound = useCallback((sound) => {
