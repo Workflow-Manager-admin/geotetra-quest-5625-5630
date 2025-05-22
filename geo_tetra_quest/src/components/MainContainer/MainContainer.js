@@ -88,9 +88,26 @@ const MainContainer = () => {
       </div>
       
       <div className="geotetra-footer">
-        <button className="geotetra-btn geotetra-btn-primary">Start Game</button>
-        <button className="geotetra-btn">Pause Game</button>
-        <button className="geotetra-btn geotetra-btn-danger">Reset</button>
+        <button 
+          className="geotetra-btn geotetra-btn-primary"
+          onClick={gameStarted && !gameOver ? togglePause : startGame}
+        >
+          {gameStarted && !gameOver ? (paused ? "Resume Game" : "Pause Game") : "Start Game"}
+        </button>
+        {gameStarted && !gameOver && (
+          <button 
+            className="geotetra-btn"
+            onClick={togglePause}
+          >
+            {paused ? "Resume Game" : "Pause Game"}
+          </button>
+        )}
+        <button 
+          className="geotetra-btn geotetra-btn-danger"
+          onClick={resetGame}
+        >
+          Reset
+        </button>
       </div>
     </div>
   );
