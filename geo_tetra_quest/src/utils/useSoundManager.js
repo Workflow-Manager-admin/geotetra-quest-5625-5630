@@ -112,6 +112,11 @@ const useSoundManager = () => {
     playSound(levelUpSound);
   }, [playSound]);
 
+  // Toggle mute function
+  const toggleMute = useCallback(() => {
+    setMuted(prevMuted => !prevMuted);
+  }, []);
+
   return {
     playMoveSound,
     playRotateSound,
@@ -120,7 +125,9 @@ const useSoundManager = () => {
     playLineClearSound,
     playGameOverSound,
     playGameStartSound,
-    playLevelUpSound
+    playLevelUpSound,
+    toggleMute,
+    muted
   };
 };
 
