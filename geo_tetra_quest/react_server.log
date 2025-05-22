@@ -176,3 +176,4 @@ src/utils/useGameState.js
   Line 181:15:  'levelUp' is assigned a value but never used  no-unused-vars
 
 webpack compiled with 1 warning
+Compiling...
