@@ -215,6 +215,17 @@ export const useGameState = () => {
         const newScore = prev.score + calculateScore(linesCleared, prev.level);
         const newLevel = calculateLevel(newRows);
         
+        // Track which lines are being cleared for animation
+        let clearingLineIndices = [];
+        if (linesCleared > 0) {
+          // Find indices of complete rows
+          updatedBoard.forEach((row, index) => {
+            if (row.every(cell => cell !== 0)) {
+              clearingLineIndices.push(index);
+            }
+          });
+        }
+        
         // Create new tetromino from next piece
         const nextPiece = prev.nextPiece;
         const pieceWidth = nextPiece.shape[0].length;
