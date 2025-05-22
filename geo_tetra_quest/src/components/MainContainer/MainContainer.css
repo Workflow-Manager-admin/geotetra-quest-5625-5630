@@ -268,6 +268,17 @@
   background-color: rgba(255, 82, 82, 0.1);
 }
 
+/* Sound control button */
+.geotetra-btn-sound {
+  background-color: transparent;
+  border: 1px solid var(--kavia-orange);
+  color: var(--kavia-orange);
+}
+
+.geotetra-btn-sound:hover {
+  background-color: rgba(232, 122, 65, 0.1);
+}
+
 /* Responsive adjustments */
 @media (max-width: 768px) {
   .geotetra-game-area {

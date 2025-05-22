@@ -186,6 +186,12 @@ const MainContainer = () => {
         >
           Reset
         </button>
+        <button 
+          className="geotetra-btn"
+          onClick={soundManager.toggleMute}
+        >
+          {soundManager.muted ? "Unmute 🔊" : "Mute 🔇"}
+        </button>
       </div>
     </div>
   );
