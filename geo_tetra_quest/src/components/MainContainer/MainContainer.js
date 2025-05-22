@@ -89,13 +89,16 @@ const MainContainer = () => {
   
   // Add effect for clearing the last played sound info
   useEffect(() => {
+    let timer = null;
     if (lastPlayedSound) {
-      const timer = setTimeout(() => {
+      timer = setTimeout(() => {
         setLastPlayedSound(null);
       }, 800); // Clear after sound is likely finished
-      
-      return () => clearTimeout(timer);
     }
+    
+    return () => {
+      if (timer) clearTimeout(timer);
+    };
   }, [lastPlayedSound]);
 
   return (
