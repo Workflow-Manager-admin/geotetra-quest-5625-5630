@@ -9,7 +9,8 @@ import {
   calculateScore,
   calculateLevel,
   calculateDropTime,
-  createGameState
+  createGameState,
+  updateBoard as updateGameBoard
 } from './tetrisGameEngine';
 
 export const useGameState = () => {
@@ -18,7 +19,7 @@ export const useGameState = () => {
   const [gameStarted, setGameStarted] = useState(false);
 
   // Extract game state properties for easier access
-  const { board, player, nextPiece: nextTetromino, score, rows, level, gameOver, paused } = gameState;
+  const { board, player, nextPiece, score, rows, level, gameOver, paused } = gameState;
 
   // Update player position
   const updatePlayerPosition = useCallback((x, y, collided) => {
@@ -34,6 +35,52 @@ export const useGameState = () => {
       }
     }));
   }, []);
+
+  // Update board when player tetromino collides
+  const updateBoard = useCallback((prevBoard, player) => {
+    const newBoard = [...prevBoard].map(row => [...row]);
+    
+    player.tetromino.shape.forEach((row, y) => {
+      row.forEach((value, x) => {
+        if (value !== 0) {
+          if (
+            y + player.pos.y >= 0 && 
+            y + player.pos.y < prevBoard.length && 
+            x + player.pos.x >= 0 && 
+            x + player.pos.x < prevBoard[0].length
+          ) {
+            newBoard[y + player.pos.y][x + player.pos.x] = parseInt(player.tetromino.color);
+          }
+        }
+      });
+    });
+    
+    return newBoard;
+  }, []);
+
+  // Define togglePause before it's used
+  const togglePause = useCallback(() => {
+    if (!gameOver && gameStarted) {
+      setGameState(prev => {
+        // Toggle paused state
+        const newPaused = !prev.paused;
+        
+        // Set drop time based on paused state
+        if (!newPaused) {
+          // Resume game
+          setDropTime(calculateDropTime(prev.level));
+        } else {
+          // Pause game
+          setDropTime(null);
+        }
+        
+        return {
+          ...prev,
+          paused: newPaused
+        };
+      });
+    }
+  }, [gameOver, gameStarted]);
 
   // Rotate the player's tetromino
   const rotatePlayer = useCallback((dir) => {
@@ -68,6 +115,13 @@ export const useGameState = () => {
       player: clonedPlayer
     }));
   }, [gameState.board, gameState.player]);
+
+  // Move the player left or right
+  const movePlayer = useCallback((dir) => {
+    if (!checkCollision(gameState.player, gameState.board, { x: dir, y: 0 })) {
+      updatePlayerPosition(dir, 0, false);
+    }
+  }, [gameState.player, gameState.board, updatePlayerPosition]);
 
   // Drop the tetromino one row down
   const drop = useCallback(() => {
@@ -131,7 +185,7 @@ export const useGameState = () => {
         };
       });
     }
-  }, [gameState, updatePlayerPosition]);
+  }, [gameState, updatePlayerPosition, updateBoard]);
 
   // Drop the tetromino to the bottom instantly
   const dropPlayer = useCallback(() => {
@@ -139,19 +193,12 @@ export const useGameState = () => {
     drop();
   }, [drop]);
 
-  // Move the player left or right
-  const movePlayer = useCallback((dir) => {
-    if (!checkCollision(gameState.player, gameState.board, { x: dir, y: 0 })) {
-      updatePlayerPosition(dir, 0, false);
-    }
-  }, [gameState.player, gameState.board, updatePlayerPosition]);
-
   // Start automatic dropping
   const startDropping = useCallback(() => {
     if (!paused && !gameOver) {
-      setDropTime(calculateDropTime(gameState.level));
+      setDropTime(calculateDropTime(level));
     }
-  }, [paused, gameOver, gameState.level]);
+  }, [paused, gameOver, level]);
 
   // Stop automatic dropping
   const stopDropping = useCallback(() => {
@@ -189,7 +236,7 @@ export const useGameState = () => {
       default:
         break;
     }
-  }, [gameOver, paused, gameStarted, movePlayer, dropPlayer, rotatePlayer, gameState.player, gameState.board, updatePlayerPosition]);
+  }, [gameOver, paused, gameStarted, movePlayer, dropPlayer, rotatePlayer, gameState.player, gameState.board, updatePlayerPosition, togglePause]);
 
   // Start new game
   const startGame = useCallback(() => {
@@ -198,24 +245,6 @@ export const useGameState = () => {
     setDropTime(1000);
     setGameStarted(true);
   }, []);
-
-  // Toggle pause state
-  const togglePause = useCallback(() => {
-    if (!gameOver && gameStarted) {
-      if (paused) {
-        // Resume game
-        setDropTime(calculateDropTime(gameState.level));
-      } else {
-        // Pause game
-        setDropTime(null);
-      }
-      
-      setGameState(prev => ({
-        ...prev,
-        paused: !prev.paused
-      }));
-    }
-  }, [gameOver, gameStarted, paused, gameState.level]);
 
   // Reset game
   const resetGame = useCallback(() => {
@@ -250,28 +279,6 @@ export const useGameState = () => {
     };
   }, [gameStarted, handleKeyPress]);
 
-  // Update board when player tetromino collides
-  const updateBoard = useCallback((prevBoard, player) => {
-    const newBoard = [...prevBoard].map(row => [...row]);
-    
-    player.tetromino.shape.forEach((row, y) => {
-      row.forEach((value, x) => {
-        if (value !== 0) {
-          if (
-            y + player.pos.y >= 0 && 
-            y + player.pos.y < prevBoard.length && 
-            x + player.pos.x >= 0 && 
-            x + player.pos.x < prevBoard[0].length
-          ) {
-            newBoard[y + player.pos.y][x + player.pos.x] = parseInt(player.tetromino.color);
-          }
-        }
-      });
-    });
-    
-    return newBoard;
-  }, []);
-
   // Generate a stage with the active tetromino for rendering
   const stage = useCallback(() => {
     const newStage = [...board].map(row => [...row]);
@@ -302,7 +309,7 @@ export const useGameState = () => {
     // Game state
     board: stage(),
     player,
-    nextPiece: nextTetromino.shape,
+    nextPiece: nextPiece ? nextPiece.shape : Array(4).fill(Array(4).fill(0)),
     score,
     rows,
     level,
