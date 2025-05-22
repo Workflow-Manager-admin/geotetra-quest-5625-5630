@@ -12,6 +12,8 @@ import {
   createBoard
 } from './tetrisGameEngine';
 
+// Import sound hook but don't use it yet - will be used by MainContainer
+
 export const useGameState = () => {
   const [gameState, setGameState] = useState(createGameState());
   const [dropTime, setDropTime] = useState(null);
