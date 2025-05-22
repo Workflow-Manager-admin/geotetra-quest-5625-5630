@@ -181,8 +181,15 @@ export const updateBoard = (prevBoard, player) => {
   player.tetromino.shape.forEach((row, y) => {
     row.forEach((value, x) => {
       if (value !== 0) {
-        board[y + player.pos.y][x + player.pos.x] = 
-          value;
+        // Make sure we're not trying to place blocks outside the board boundaries
+        if (
+          y + player.pos.y >= 0 && 
+          y + player.pos.y < board.length && 
+          x + player.pos.x >= 0 && 
+          x + player.pos.x < board[0].length
+        ) {
+          board[y + player.pos.y][x + player.pos.x] = parseInt(player.tetromino.color);
+        }
       }
     });
   });
