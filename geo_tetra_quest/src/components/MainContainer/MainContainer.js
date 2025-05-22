@@ -76,8 +76,9 @@ const MainContainer = () => {
   
   // Handle game start sound
   useEffect(() => {
-    if (gameStart) {
+    if (gameStart && soundManager.soundsLoaded) {
       soundManager.playGameStartSound();
+      setLastPlayedSound('gameStart');
     }
   }, [gameStart, soundManager]);
   
