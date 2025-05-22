@@ -273,9 +273,35 @@ export const useGameState = () => {
     return newBoard;
   }, []);
 
+  // Generate a stage with the active tetromino for rendering
+  const stage = useCallback(() => {
+    const newStage = [...board].map(row => [...row]);
+    
+    // Add the active tetromino to the stage
+    if (player && player.tetromino) {
+      player.tetromino.shape.forEach((row, y) => {
+        row.forEach((value, x) => {
+          if (value !== 0) {
+            if (
+              y + player.pos.y >= 0 && 
+              y + player.pos.y < newStage.length && 
+              x + player.pos.x >= 0 && 
+              x + player.pos.x < newStage[0].length
+            ) {
+              // Use the color value for rendering
+              newStage[y + player.pos.y][x + player.pos.x] = parseInt(player.tetromino.color);
+            }
+          }
+        });
+      });
+    }
+    
+    return newStage;
+  }, [board, player]);
+
   return {
     // Game state
-    board,
+    board: stage(),
     player,
     nextPiece: nextPiece.shape,
     score,
