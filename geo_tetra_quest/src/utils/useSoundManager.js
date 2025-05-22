@@ -1,4 +1,4 @@
-import { useEffect, useCallback, useRef } from 'react';
+import { useEffect, useCallback, useRef, useState } from 'react';
 
 /**
  * PUBLIC_INTERFACE
@@ -16,6 +16,9 @@ const useSoundManager = () => {
   const gameOverSound = useRef(null);
   const gameStartSound = useRef(null);
   const levelUpSound = useRef(null);
+  
+  // State to track mute status
+  const [muted, setMuted] = useState(false);
 
   // Initialize sound elements on component mount
   useEffect(() => {
