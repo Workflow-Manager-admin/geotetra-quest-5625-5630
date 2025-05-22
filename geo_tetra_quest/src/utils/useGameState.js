@@ -1,7 +1,6 @@
 import { useState, useEffect, useCallback } from 'react';
 
 import { 
-  createBoard, 
   randomTetromino, 
   checkCollision,
   rotate,
@@ -9,8 +8,7 @@ import {
   calculateScore,
   calculateLevel,
   calculateDropTime,
-  createGameState,
-  updateBoard as updateGameBoard
+  createGameState
 } from './tetrisGameEngine';
 
 export const useGameState = () => {
@@ -194,17 +192,7 @@ export const useGameState = () => {
     drop();
   }, [drop]);
 
-  // Start automatic dropping
-  const startDropping = useCallback(() => {
-    if (!paused && !gameOver) {
-      setDropTime(calculateDropTime(level));
-    }
-  }, [paused, gameOver, level]);
-
-  // Stop automatic dropping
-  const stopDropping = useCallback(() => {
-    setDropTime(null);
-  }, []);
+  // These drop functions are handled elsewhere, so we can remove these unused functions
 
   // Handle key presses for game controls
   const handleKeyPress = useCallback((event) => {
