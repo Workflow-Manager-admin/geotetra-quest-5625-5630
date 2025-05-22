@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import './MainContainer.css';
 import GameBoard from '../GameBoard/GameBoard';
 import Block from '../Block/Block';
