@@ -487,6 +487,9 @@ export const useGameState = () => {
     gameStart: gameState.gameStart,
     gameOverTrigger: gameState.gameOverTrigger,
     
+    // Animation related data
+    clearingLines: gameState.clearingLines || [],
+    
     // Game actions
     startGame,
     togglePause,
