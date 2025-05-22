@@ -68,8 +68,9 @@ const MainContainer = () => {
   
   // Handle level up sound
   useEffect(() => {
-    if (levelUp) {
+    if (levelUp && soundManager.soundsLoaded) {
       soundManager.playLevelUpSound();
+      setLastPlayedSound('levelUp');
     }
   }, [levelUp, soundManager]);
   
