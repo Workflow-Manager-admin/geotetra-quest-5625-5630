@@ -19,15 +19,16 @@ const useSoundManager = () => {
 
   // Initialize sound elements on component mount
   useEffect(() => {
-    // Create audio elements
-    moveSound.current = new Audio('/sounds/move.mp3');
-    rotateSound.current = new Audio('/sounds/rotate.mp3');
-    dropSound.current = new Audio('/sounds/drop.mp3');
-    hardDropSound.current = new Audio('/sounds/hard-drop.mp3');
-    lineClearSound.current = new Audio('/sounds/line-clear.mp3');
-    gameOverSound.current = new Audio('/sounds/game-over.mp3');
-    gameStartSound.current = new Audio('/sounds/game-start.mp3');
-    levelUpSound.current = new Audio('/sounds/level-up.mp3');
+    // Create audio elements with the process.env.PUBLIC_URL prefix for correct path resolution
+    const publicUrl = process.env.PUBLIC_URL || '';
+    moveSound.current = new Audio(`${publicUrl}/sounds/move.mp3`);
+    rotateSound.current = new Audio(`${publicUrl}/sounds/rotate.mp3`);
+    dropSound.current = new Audio(`${publicUrl}/sounds/drop.mp3`);
+    hardDropSound.current = new Audio(`${publicUrl}/sounds/hard-drop.mp3`);
+    lineClearSound.current = new Audio(`${publicUrl}/sounds/line-clear.mp3`);
+    gameOverSound.current = new Audio(`${publicUrl}/sounds/game-over.mp3`);
+    gameStartSound.current = new Audio(`${publicUrl}/sounds/game-start.mp3`);
+    levelUpSound.current = new Audio(`${publicUrl}/sounds/level-up.mp3`);
     
     // Set volume for all sounds
     const sounds = [
