@@ -18,6 +18,38 @@ export const useGameState = () => {
   const [gameState, setGameState] = useState(createGameState());
   const [dropTime, setDropTime] = useState(null);
   const [gameStarted, setGameStarted] = useState(false);
+  
+  // Add flag reset effect for sound triggers
+  useEffect(() => {
+    // Reset lastAction after it's been consumed
+    if (gameState.lastAction) {
+      const timer = setTimeout(() => {
+        setGameState(prev => ({
+          ...prev,
+          lastAction: null
+        }));
+      }, 100); // Short delay to ensure the sound has time to play
+      
+      return () => clearTimeout(timer);
+    }
+  }, [gameState.lastAction]);
+  
+  // Reset one-time sound trigger flags
+  useEffect(() => {
+    if (gameState.lineClear || gameState.levelUp || gameState.gameStart || gameState.gameOverTrigger) {
+      const timer = setTimeout(() => {
+        setGameState(prev => ({
+          ...prev,
+          lineClear: false,
+          levelUp: false,
+          gameStart: false,
+          gameOverTrigger: false
+        }));
+      }, 500); // Give enough time for sounds to play
+      
+      return () => clearTimeout(timer);
+    }
+  }, [gameState.lineClear, gameState.levelUp, gameState.gameStart, gameState.gameOverTrigger]);
 
   // Extract game state properties for easier access
   const { board, player, nextPiece, score, rows, level, gameOver, paused } = gameState;
