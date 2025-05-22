@@ -164,11 +164,17 @@ export const calculateDropTime = (level) => {
 
 // Create a game state object for initializing the game
 export const createGameState = () => {
+  // Create a clean board
+  const board = createBoard();
+  
+  // Get a random tetromino for the player
+  const firstPiece = randomTetromino();
+  
   return {
-    board: createBoard(),
+    board: board,
     player: {
-      pos: { x: 3, y: 0 },
-      tetromino: randomTetromino(),
+      pos: { x: 3, y: 0 }, // Start position - centered at top
+      tetromino: firstPiece,
       collided: false,
     },
     nextPiece: randomTetromino(),
