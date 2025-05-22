@@ -55,17 +55,17 @@ const MainContainer = () => {
           <div className="geotetra-stats">
             <div className="geotetra-stat-item">
               <h3>Level</h3>
-              <div className="geotetra-stat-value">1</div>
+              <div className="geotetra-stat-value">{level}</div>
             </div>
             
             <div className="geotetra-stat-item">
               <h3>Score</h3>
-              <div className="geotetra-stat-value">0</div>
+              <div className="geotetra-stat-value">{score}</div>
             </div>
             
             <div className="geotetra-stat-item">
               <h3>Lines</h3>
-              <div className="geotetra-stat-value">0</div>
+              <div className="geotetra-stat-value">{rows}</div>
             </div>
           </div>
           
