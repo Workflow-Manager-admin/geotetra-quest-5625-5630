@@ -9,26 +9,42 @@ import './Block.css';
  * @param {boolean} props.active - Whether this block is part of the active tetromino
  * @param {boolean} props.isLocking - Whether this block is in the process of locking into place
  * @param {boolean} props.isFalling - Whether this block is currently falling
+ * @param {boolean} props.isClearing - Whether this block is part of a line being cleared
  */
 const Block = ({ 
   type = 0, 
   active = false,
   isLocking = false,
-  isFalling = false
+  isFalling = false,
+  isClearing = false
 }) => {
   const [animationState, setAnimationState] = useState('');
+  const [justLocked, setJustLocked] = useState(false);
   
   // Handle animation states with proper lifecycle
   useEffect(() => {
     let animationTimeout;
     
-    // Set animation state based on props
-    if (isLocking) {
-      setAnimationState('locking');
+    // Set animation state based on props - prioritize clearing over other animations
+    if (isClearing) {
+      setAnimationState('clearing');
       // Reset animation state after animation completes
       animationTimeout = setTimeout(() => {
         setAnimationState('');
-      }, 300); // Match the CSS animation duration
+      }, 800); // Match the CSS animation duration
+    } else if (isLocking) {
+      setAnimationState('locking');
+      setJustLocked(true);
+      
+      // Reset animation state after animation completes
+      animationTimeout = setTimeout(() => {
+        setAnimationState('');
+        
+        // Schedule removal of justLocked state after shadow pulse completes
+        setTimeout(() => {
+          setJustLocked(false);
+        }, 800);
+      }, 400); // Match the CSS animation duration
     } else if (isFalling && !active) {
       setAnimationState('falling');
       // Reset animation state after animation completes
@@ -43,11 +59,11 @@ const Block = ({
         clearTimeout(animationTimeout);
       }
     };
-  }, [isLocking, isFalling, active]);
+  }, [isLocking, isFalling, active, isClearing]);
   
   // Build class name based on block type and animation states
   const blockClass = type > 0 
-    ? `block color-${type}${active ? ' active' : ''}${animationState ? ` ${animationState}` : ''}` 
+    ? `block color-${type}${active ? ' active' : ''}${animationState ? ` ${animationState}` : ''}${justLocked ? ' just-locked' : ''}` 
     : 'block';
   
   return (
