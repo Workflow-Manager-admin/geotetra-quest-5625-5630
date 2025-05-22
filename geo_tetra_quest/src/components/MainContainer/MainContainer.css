@@ -273,10 +273,37 @@
   background-color: transparent;
   border: 1px solid var(--kavia-orange);
   color: var(--kavia-orange);
+  position: relative;
+  transition: all 0.3s ease;
 }
 
 .geotetra-btn-sound:hover {
   background-color: rgba(232, 122, 65, 0.1);
+}
+
+/* Muted state styling */
+.geotetra-btn-sound.muted {
+  border-color: rgba(232, 122, 65, 0.5);
+  color: rgba(232, 122, 65, 0.5);
+}
+
+/* Sound indicator animation */
+@keyframes pulse {
+  0% {
+    transform: scale(0.8);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(1.2);
+    opacity: 0;
+  }
+}
+
+.sound-indicator {
+  position: absolute;
+  top: 4px;
+  right: 4px;
+  font-size: 8px;
 }
 
 /* Responsive adjustments */
