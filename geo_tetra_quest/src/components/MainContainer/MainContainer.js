@@ -9,15 +9,40 @@ import Block from '../Block/Block';
  * Serves as the primary container for the game with board, controls, and scoring
  */
 const MainContainer = () => {
+  // Create a demo board state with some blocks for visual appeal
+  const generateDemoBoard = () => {
+    const emptyBoard = Array(20).fill().map(() => Array(10).fill(0));
+    
+    // Add some sample blocks at the bottom for visualization
+    for (let row = 16; row < 20; row++) {
+      for (let col = 0; col < 10; col++) {
+        // Create a pattern of blocks
+        if ((row + col) % 3 === 0) {
+          emptyBoard[row][col] = ((row * col) % 7) + 1;
+        } else if ((row + col) % 7 === 0) {
+          emptyBoard[row][col] = ((row + col) % 7) + 1;
+        }
+      }
+    }
+    
+    // Add an active tetromino in the middle (T-piece)
+    emptyBoard[5][4] = 6;
+    emptyBoard[5][5] = 6;
+    emptyBoard[5][6] = 6;
+    emptyBoard[4][5] = 6;
+    
+    return emptyBoard;
+  };
+
   // Placeholder board state for demonstration
-  const [board] = useState(Array(20).fill().map(() => Array(10).fill(0)));
+  const [board] = useState(generateDemoBoard());
   
-  // Sample next piece for preview
+  // Sample next piece for preview (L-piece)
   const [nextPiece] = useState([
     [0, 0, 0, 0],
-    [0, 1, 1, 0],
-    [0, 1, 1, 0],
-    [0, 0, 0, 0]
+    [0, 3, 0, 0],
+    [0, 3, 0, 0],
+    [0, 3, 3, 0]
   ]);
 
   return (
