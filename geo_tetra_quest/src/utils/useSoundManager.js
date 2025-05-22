@@ -69,49 +69,26 @@ const useSoundManager = () => {
     };
   }, [preloadSounds]);
 
-  // Helper function to play a sound with improved error handling
+  // Helper function to play a sound with error handling
   const playSound = useCallback((sound) => {
-    if (!sound || !sound.current || muted) return;
-    
-    // Don't try to play if sounds aren't loaded yet
-    if (!soundsLoaded) {
-      console.info('Attempted to play sound before sounds were fully loaded');
-      return;
-    }
-    
-    try {
-      // Reset the audio to the beginning if it's already playing
-      sound.current.currentTime = 0;
-      
-      // Play the sound with error handling
-      const playPromise = sound.current.play();
-      
-      if (playPromise !== undefined) {
-        playPromise.catch(error => {
-          // Check for common errors
-          if (error.name === 'NotAllowedError') {
-            console.warn('Audio playback was prevented due to browser autoplay policy. User interaction required.');
-          } else if (error.name === 'NotSupportedError') {
-            console.warn('Audio format not supported by browser.');
-          } else {
-            console.warn('Audio playback error:', error.message || error);
-          }
-          
-          // Try setting the current time to 0 and retry once
-          try {
-            sound.current.currentTime = 0;
-            sound.current.play().catch(() => {
-              // Silent fail on retry
-            });
-          } catch (retryError) {
-            // Silently fail on retry
-          }
-        });
+    if (sound && sound.current && !muted) {
+      try {
+        // Reset the audio to the beginning if it's already playing
+        sound.current.currentTime = 0;
+        
+        // Play the sound with error handling
+        const playPromise = sound.current.play();
+        
+        if (playPromise !== undefined) {
+          playPromise.catch(error => {
+            console.warn('Audio playback prevented:', error);
+          });
+        }
+      } catch (error) {
+        console.warn('Error playing sound:', error);
       }
-    } catch (error) {
-      console.warn('Error attempting to play sound:', error);
     }
-  }, [muted, soundsLoaded]);
+  }, [muted]);
 
   // Public sound functions
   const playMoveSound = useCallback(() => {
