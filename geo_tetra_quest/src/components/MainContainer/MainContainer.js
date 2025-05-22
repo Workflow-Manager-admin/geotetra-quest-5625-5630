@@ -1,8 +1,9 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import './MainContainer.css';
 import GameBoard from '../GameBoard/GameBoard';
 import Block from '../Block/Block';
 import { useGameState } from '../../utils/useGameState';
+import useSoundManager from '../../utils/useSoundManager';
 
 /**
  * PUBLIC_INTERFACE
