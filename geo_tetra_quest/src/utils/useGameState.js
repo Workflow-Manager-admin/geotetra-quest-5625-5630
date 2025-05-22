@@ -257,18 +257,28 @@ export const useGameState = () => {
   const handleKeyPress = useCallback((event) => {
     if (gameOver || paused || !gameStarted) return;
 
+    // Track the action type for sound effects
+    let actionType = null;
+
     switch(event.key) {
       case 'ArrowLeft':
-        movePlayer(-1);
+        if (movePlayer(-1)) {
+          actionType = 'move';
+        }
         break;
       case 'ArrowRight':
-        movePlayer(1);
+        if (movePlayer(1)) {
+          actionType = 'move';
+        }
         break;
       case 'ArrowDown':
         dropPlayer();
+        actionType = 'drop';
         break;
       case 'ArrowUp':
-        rotatePlayer(1);
+        if (rotatePlayer(1)) {
+          actionType = 'rotate';
+        }
         break;
       case ' ':
         // Hard drop - quickly drop to the bottom
@@ -281,6 +291,7 @@ export const useGameState = () => {
         if (dropDistance > 0) {
           // Move the piece down that many spaces
           updatePlayerPosition(0, dropDistance, false);
+          actionType = 'hardDrop';
         }
         
         // Mark as collided to trigger the next piece
@@ -292,6 +303,14 @@ export const useGameState = () => {
         break;
       default:
         break;
+    }
+
+    // Store the action type in state for components that need it (like for sound effects)
+    if (actionType) {
+      setGameState(prev => ({
+        ...prev,
+        lastAction: actionType
+      }));
     }
   }, [gameOver, paused, gameStarted, movePlayer, dropPlayer, rotatePlayer, gameState.player, gameState.board, updatePlayerPosition, togglePause]);
 
@@ -329,7 +348,10 @@ export const useGameState = () => {
       initialState.player.pos.y = -1;
     }
     
-    setGameState(initialState);
+    setGameState({
+      ...initialState,
+      gameStart: true // Flag for game start sound effect
+    });
     // Set up the drop interval
     setDropTime(calculateDropTime(0));
     setGameStarted(true);
