@@ -39,9 +39,6 @@ const MainContainer = () => {
   
   // Handle sound effects based on game events
   useEffect(() => {
-    // Only attempt to play sounds if they're loaded
-    if (!soundManager.soundsLoaded) return;
-    
     // Play sounds based on actions and update last played sound
     if (lastAction === 'move') {
       soundManager.playMoveSound();
