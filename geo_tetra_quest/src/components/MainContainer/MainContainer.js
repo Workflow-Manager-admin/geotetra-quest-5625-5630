@@ -159,7 +159,11 @@ const MainContainer = () => {
         
         <div className="geotetra-board-container">
           {/* Use the GameBoard component */}
-          <GameBoard board={board} />
+          <GameBoard 
+            board={board} 
+            clearingLines={clearingLines} 
+            lineClear={lineClear}
+          />
           
           {/* Game over overlay */}
           {gameOver && (
