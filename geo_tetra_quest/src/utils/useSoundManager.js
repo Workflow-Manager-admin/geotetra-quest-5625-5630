@@ -64,7 +64,7 @@ const useSoundManager = () => {
 
   // Helper function to play a sound with error handling
   const playSound = useCallback((sound) => {
-    if (sound && sound.current) {
+    if (sound && sound.current && !muted) {
       // Reset the audio to the beginning if it's already playing
       sound.current.currentTime = 0;
       
@@ -77,7 +77,7 @@ const useSoundManager = () => {
         });
       }
     }
-  }, []);
+  }, [muted]);
 
   // Public sound functions
   const playMoveSound = useCallback(() => {
