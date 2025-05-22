@@ -1,5 +1,7 @@
-import React from 'react';
+import React, { useState } from 'react';
 import './MainContainer.css';
+import GameBoard from '../GameBoard/GameBoard';
+import Block from '../Block/Block';
 
 /**
  * PUBLIC_INTERFACE
@@ -7,6 +9,17 @@ import './MainContainer.css';
  * Serves as the primary container for the game with board, controls, and scoring
  */
 const MainContainer = () => {
+  // Placeholder board state for demonstration
+  const [board] = useState(Array(20).fill().map(() => Array(10).fill(0)));
+  
+  // Sample next piece for preview
+  const [nextPiece] = useState([
+    [0, 0, 0, 0],
+    [0, 1, 1, 0],
+    [0, 1, 1, 0],
+    [0, 0, 0, 0]
+  ]);
+
   return (
     <div className="geotetra-container">
       <div className="geotetra-header">
@@ -19,12 +32,14 @@ const MainContainer = () => {
           <div className="geotetra-next-piece-container">
             <h3>Next Piece</h3>
             <div className="geotetra-next-piece">
-              {/* Placeholder for next piece preview */}
+              {/* Next piece preview */}
               <div className="geotetra-preview-grid">
-                {Array(4).fill().map((_, row) => (
-                  <div key={`preview-row-${row}`} className="geotetra-preview-row">
-                    {Array(4).fill().map((_, col) => (
-                      <div key={`preview-cell-${row}-${col}`} className="geotetra-preview-cell"></div>
+                {nextPiece.map((row, rowIndex) => (
+                  <div key={`preview-row-${rowIndex}`} className="geotetra-preview-row">
+                    {row.map((cell, colIndex) => (
+                      <div key={`preview-cell-${rowIndex}-${colIndex}`} className="geotetra-preview-cell">
+                        {cell > 0 && <Block type={cell} />}
+                      </div>
                     ))}
                   </div>
                 ))}
@@ -62,16 +77,8 @@ const MainContainer = () => {
         </div>
         
         <div className="geotetra-board-container">
-          <div className="geotetra-board">
-            {/* Game board grid - 10x20 standard Tetris board */}
-            {Array(20).fill().map((_, row) => (
-              <div key={`row-${row}`} className="geotetra-row">
-                {Array(10).fill().map((_, col) => (
-                  <div key={`cell-${row}-${col}`} className="geotetra-cell"></div>
-                ))}
-              </div>
-            ))}
-          </div>
+          {/* Use the GameBoard component */}
+          <GameBoard board={board} />
         </div>
       </div>
       
