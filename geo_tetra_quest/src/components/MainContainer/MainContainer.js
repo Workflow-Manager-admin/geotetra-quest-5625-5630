@@ -39,9 +39,9 @@ const MainContainer = () => {
             <div className="geotetra-next-piece">
               {/* Next piece preview */}
               <div className="geotetra-preview-grid">
-                {nextPiece.map((row, rowIndex) => (
+                {Array.isArray(nextPiece) && nextPiece.map((row, rowIndex) => (
                   <div key={`preview-row-${rowIndex}`} className="geotetra-preview-row">
-                    {row.map((cell, colIndex) => (
+                    {Array.isArray(row) && row.map((cell, colIndex) => (
                       <div key={`preview-cell-${rowIndex}-${colIndex}`} className="geotetra-preview-cell">
                         {cell > 0 && <Block type={cell} />}
                       </div>

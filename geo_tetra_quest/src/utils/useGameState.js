@@ -222,11 +222,22 @@ export const useGameState = () => {
     }
   }, [gameState, updatePlayerPosition, updateBoard]);
 
-  // Drop the tetromino to the bottom instantly
+  // Drop the tetromino one row down (soft drop)
   const dropPlayer = useCallback(() => {
-    setDropTime(null); // Stop automatic dropping
+    // Create a temporary faster drop time for soft drop
+    const fastDropTime = calculateDropTime(gameState.level) / 10;
+    setDropTime(fastDropTime);
+    
+    // Call drop once immediately
     drop();
-  }, [drop]);
+    
+    // Reset the drop time after a short delay
+    setTimeout(() => {
+      if (!gameOver && !paused) {
+        setDropTime(calculateDropTime(gameState.level));
+      }
+    }, 100);
+  }, [drop, gameState.level, gameOver, paused]);
 
   // These drop functions are handled elsewhere, so we can remove these unused functions
 
