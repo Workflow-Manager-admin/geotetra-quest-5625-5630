@@ -8,7 +8,8 @@ import {
   calculateScore,
   calculateLevel,
   calculateDropTime,
-  createGameState
+  createGameState,
+  createBoard
 } from './tetrisGameEngine';
 
 export const useGameState = () => {
