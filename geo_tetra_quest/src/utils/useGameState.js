@@ -108,10 +108,9 @@ export const useGameState = () => {
         const updatedBoard = updateBoard(prev.board, updatedPlayer);
         
         // Clear completed rows and calculate new score
-        const clearedRows = clearRows(updatedBoard);
-        const rowsCleared = updatedBoard.length - clearedRows.length;
-        const newRows = prev.rows + rowsCleared;
-        const newScore = prev.score + calculateScore(rowsCleared, prev.level);
+        const { clearedBoard, linesCleared } = clearRows(updatedBoard);
+        const newRows = prev.rows + linesCleared;
+        const newScore = prev.score + calculateScore(linesCleared, prev.level);
         const newLevel = calculateLevel(newRows);
         
         // Create new tetromino from next piece
@@ -123,7 +122,7 @@ export const useGameState = () => {
         
         return {
           ...prev,
-          board: clearedRows,
+          board: clearedBoard,
           player: newPlayer,
           nextPiece: randomTetromino(),
           score: newScore,
