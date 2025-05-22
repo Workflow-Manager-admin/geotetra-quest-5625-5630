@@ -163,3 +163,17 @@ Search for the keywords to learn more about each error.
 
 webpack compiled with 1 error
 Compiling...
+Failed to compile.
+
+[eslint] 
+src/components/MainContainer/MainContainer.js
+  Line 38:49:  'useState' is not defined  no-undef
+
+Search for the keywords to learn more about each error.
+ERROR in [eslint] 
+src/components/MainContainer/MainContainer.js
+  Line 38:49:  'useState' is not defined  no-undef
+
+Search for the keywords to learn more about each error.
+
+webpack compiled with 1 error
