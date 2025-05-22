@@ -120,23 +120,23 @@ export const rotate = (matrix, dir) => {
   return rotatedTetromino.reverse();
 };
 
-// Clear completed rows and return the number of cleared rows
+// Clear completed rows and return the new board and number of cleared rows
 export const clearRows = (board) => {
-  let rowsCleared = 0;
-  
-  // Check each row for completely filled cells
-  return board.reduce((acc, row) => {
-    // If all cells in a row are filled (not 0), increment rowsCleared
+  let linesCleared = 0;
+  const newBoard = board.reduce((acc, row) => {
+    // If all cells in a row are filled (not 0), increment linesCleared
     if (row.every(cell => cell !== 0)) {
-      rowsCleared += 1;
+      linesCleared += 1;
       // Add an empty row at the top of the board
       acc.unshift(new Array(board[0].length).fill(0));
       return acc;
     }
     // Keep the row as is
-    acc.push(row);
+    acc.push([...row]);
     return acc;
-  }, []).filter(() => true); // Filter to create a new array reference
+  }, []);
+  
+  return { clearedBoard: newBoard, linesCleared };
 };
 
 // Calculate score based on rows cleared and level
