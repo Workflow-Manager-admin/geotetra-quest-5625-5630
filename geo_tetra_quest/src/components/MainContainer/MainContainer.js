@@ -212,11 +212,45 @@ const MainContainer = () => {
           Reset
         </button>
         <button 
-          className="geotetra-btn"
-          onClick={soundManager.toggleMute}
+          className={`geotetra-btn geotetra-btn-sound ${soundManager.muted ? 'muted' : ''}`}
+          onClick={() => {
+            soundManager.toggleMute();
+            // Play test sound when unmuting to verify it works
+            if (soundManager.muted) {
+              setTimeout(() => {
+                soundManager.playMoveSound();
+                setLastPlayedSound('move');
+              }, 100);
+            }
+          }}
+          title={soundManager.muted ? "Enable sound effects" : "Disable sound effects"}
         >
           {soundManager.muted ? "Unmute 🔊" : "Mute 🔇"}
+          {lastPlayedSound && !soundManager.muted && (
+            <span className="sound-indicator" style={{ 
+              display: 'inline-block',
+              marginLeft: '5px',
+              opacity: '0.8',
+              animation: 'pulse 0.5s ease-out'
+            }}>
+              ●
+            </span>
+          )}
         </button>
+        
+        {/* Add a small indicator if sounds failed to load */}
+        {soundManager.loadingErrors.length > 0 && (
+          <div className="sound-error-indicator" 
+            style={{ 
+              fontSize: '0.8rem', 
+              color: 'rgba(255,100,100,0.8)',
+              marginTop: '5px' 
+            }} 
+            title={soundManager.loadingErrors.join('\n')}
+          >
+            Sound loading issues detected
+          </div>
+        )}
       </div>
     </div>
   );
