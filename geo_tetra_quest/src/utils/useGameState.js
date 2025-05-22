@@ -241,8 +241,22 @@ export const useGameState = () => {
   // Start new game
   const startGame = useCallback(() => {
     // Reset game state
-    setGameState(createGameState());
-    setDropTime(1000);
+    const initialState = createGameState();
+    
+    // Ensure the initial piece doesn't immediately collide
+    const hasCollision = checkCollision(
+      initialState.player, 
+      initialState.board, 
+      { x: 0, y: 0 }
+    );
+    
+    // If there's an immediate collision, try a different piece
+    if (hasCollision) {
+      initialState.player.tetromino = randomTetromino();
+    }
+    
+    setGameState(initialState);
+    setDropTime(calculateDropTime(0)); // Use proper drop time calculation
     setGameStarted(true);
   }, []);
 
