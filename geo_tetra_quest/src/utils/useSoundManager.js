@@ -138,9 +138,7 @@ const useSoundManager = () => {
     playGameStartSound,
     playLevelUpSound,
     toggleMute,
-    muted,
-    soundsLoaded,
-    loadingErrors
+    muted
   };
 };
 
