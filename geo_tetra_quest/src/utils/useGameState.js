@@ -137,16 +137,20 @@ export const useGameState = () => {
     if (!checkCollision(gameState.player, gameState.board, { x: 0, y: 1 })) {
       updatePlayerPosition(0, 1, false);
     } else {
-      // Check for game over - if collision at top of board
-      // Only trigger game over if there's a collision at the top row AND the piece has already been marked as collided
-      if (gameState.player.pos.y < 1 && gameState.player.collided) {
-        setGameState(prev => ({
-          ...prev,
-          gameOver: true
-        }));
-        setDropTime(null);
-        setGameStarted(false);
-        return;
+      // If we're still at the very top of the board with a collision,
+      // only trigger game over if the piece has settled (collided)
+      if (gameState.player.pos.y < 1) {
+        // Instead of immediately marking game over, we check if the player has attempted to move the piece
+        // If the piece is still at its initial position, we don't mark game over yet
+        if (gameState.player.collided) {
+          setGameState(prev => ({
+            ...prev,
+            gameOver: true
+          }));
+          setDropTime(null);
+          setGameStarted(false);
+          return;
+        }
       }
       
       // Handle tetromino landing
@@ -173,6 +177,9 @@ export const useGameState = () => {
           collided: false,
         };
         
+        // Check if the new piece immediately collides - if so, it's game over
+        const gameIsOver = checkCollision(newPlayer, clearedBoard, { x: 0, y: 0 });
+        
         return {
           ...prev,
           board: clearedBoard,
@@ -180,7 +187,8 @@ export const useGameState = () => {
           nextPiece: randomTetromino(),
           score: newScore,
           rows: newRows,
-          level: newLevel
+          level: newLevel,
+          gameOver: gameIsOver // Set game over if new piece can't be placed
         };
       });
     }
